@@ -1,6 +1,6 @@
 # NotifyGlow-Rootless
 
-App-colored notification animations for a rootless jailbreak. Package: `com.rshad.notifyglow`, version `1.0.0`.
+App-colored notification animations for a rootless jailbreak. Package: `com.rshad.notifyglow`, version `1.0.1`.
 
 ## Included
 

@@ -6,10 +6,14 @@
 	<dict>
 		<key>bundle</key>
 		<string>NotifyGlowPrefs</string>
+		<key>bundlePath</key>
+		<string>/var/jb/Library/PreferenceBundles/NotifyGlowPrefs.bundle</string>
 		<key>cell</key>
 		<string>PSLinkCell</string>
 		<key>detail</key>
 		<string>NGRootController</string>
+		<key>isController</key>
+		<true/>
 		<key>label</key>
 		<string>NotifyGlow</string>
 	</dict>

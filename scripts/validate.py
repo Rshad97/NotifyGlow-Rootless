@@ -6,7 +6,7 @@ import sys
 root = Path(__file__).resolve().parents[1]
 control = dict(line.split(': ', 1) for line in (root/'control').read_text().splitlines() if ': ' in line)
 info = plistlib.loads((root/'preferences/Resources/Info.plist').read_bytes())
-assert control['Version'] == info['CFBundleVersion'] == info['CFBundleShortVersionString'] == '1.0.0'
+assert control['Version'] == info['CFBundleVersion'] == info['CFBundleShortVersionString'] == '1.0.1'
 assert control['Package'] == 'com.rshad.notifyglow'
 assert control['Architecture'] == 'iphoneos-arm64'
 for file in (root/'preferences/Resources').glob('*.plist'):
