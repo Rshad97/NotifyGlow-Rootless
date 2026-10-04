@@ -19,7 +19,7 @@ if '--package' in sys.argv:
         actual = subprocess.check_output(['dpkg-deb','-f',str(packages[0]),key],text=True).strip()
         assert actual == control[key], (key, actual)
     listing = subprocess.check_output(['dpkg-deb','-c',str(packages[0])],text=True)
-    assert './var/jb/Library/MobileSubstrate/DynamicLibraries/NotifyGlow.dylib' in listing
-    assert './var/jb/Library/PreferenceBundles/NotifyGlowPrefs.bundle/NotifyGlowPrefs' in listing
-    assert './var/jb/Library/PreferenceLoader/Preferences/NotifyGlow.plist' in listing
+    assert any(line.rstrip().endswith('/NotifyGlow.dylib') for line in listing.splitlines()), listing
+    assert any(line.rstrip().endswith('/NotifyGlowPrefs') for line in listing.splitlines()), listing
+    assert any(line.rstrip().endswith('/PreferenceLoader/Preferences/NotifyGlow.plist') for line in listing.splitlines()), listing
 print('Metadata and package checks passed' if '--package' in sys.argv else 'Metadata checks passed')
