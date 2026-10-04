@@ -1,0 +1,16 @@
+Origin: Rashad Repo
+Label: Rashad Repo
+Suite: stable
+Version: 1.0
+Codename: ios
+Architectures: iphoneos-arm64
+Components: main
+Description: Rashad NotifyGlow packages
+MD5Sum:
+ a8d52bddd6294b0b62d927ae8cf1f2f5              775 Packages
+ 6c7aac2af7dd5d7a51b50c738d941b32              536 Packages.gz
+ c519af703c410fcf097904c01cb4c2bd              591 Packages.bz2
+SHA256:
+ 1b8c6d9227e69e9faea1f33f2b1aa5a8ecbae88f65b4840fa0fce5893d364dca              775 Packages
+ 8f6c345db46be19e15ec46f8b828d94a39de46263fa7e5dbef694f14f762d5c3              536 Packages.gz
+ bb7393061a754df516979337ea79ffdc56e2f0809abf009fc74dedfcc7f068ef              591 Packages.bz2
