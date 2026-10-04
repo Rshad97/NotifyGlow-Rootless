@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Initial device-validation build. Settings apply immediately; Preview tests visuals independently of notification hooks.</string>
+			<key>label</key>
+			<string>NotifyGlow 1.0.0</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.rshad.notifyglow</string>
+			<key>key</key>
+			<string>Enabled</string>
+			<key>label</key>
+			<string>Enable NotifyGlow</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.rshad.notifyglow</string>
+			<key>key</key>
+			<string>OnLock</string>
+			<key>label</key>
+			<string>On lock screen</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.rshad.notifyglow</string>
+			<key>key</key>
+			<string>OnOpen</string>
+			<key>label</key>
+			<string>While using your phone</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string></string>
+			<key>label</key>
+			<string>Animation</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<string>edge</string>
+			<key>defaults</key>
+			<string>com.rshad.notifyglow</string>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>key</key>
+			<string>Style</string>
+			<key>label</key>
+			<string>Style</string>
+			<key>validTitles</key>
+			<array>
+				<string>Edge lighting</string>
+				<string>Notch pulse</string>
+				<string>Soft wave</string>
+				<string>Random</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<string>edge</string>
+				<string>notch</string>
+				<string>wave</string>
+				<string>random</string>
+			</array>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<integer>2</integer>
+			<key>defaults</key>
+			<string>com.rshad.notifyglow</string>
+			<key>key</key>
+			<string>Duration</string>
+			<key>label</key>
+			<string>Duration (seconds)</string>
+			<key>max</key>
+			<integer>6</integer>
+			<key>min</key>
+			<real>0.5</real>
+			<key>showValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<integer>4</integer>
+			<key>defaults</key>
+			<string>com.rshad.notifyglow</string>
+			<key>key</key>
+			<string>Width</string>
+			<key>label</key>
+			<string>Line width</string>
+			<key>max</key>
+			<integer>12</integer>
+			<key>min</key>
+			<integer>1</integer>
+			<key>showValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>0.85</real>
+			<key>defaults</key>
+			<string>com.rshad.notifyglow</string>
+			<key>key</key>
+			<string>Intensity</string>
+			<key>label</key>
+			<string>Intensity</string>
+			<key>max</key>
+			<integer>1</integer>
+			<key>min</key>
+			<real>0.1</real>
+			<key>showValue</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.rshad.notifyglow</string>
+			<key>key</key>
+			<string>ShowIcon</string>
+			<key>label</key>
+			<string>Show app icon</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>default</key>
+			<string></string>
+			<key>defaults</key>
+			<string>com.rshad.notifyglow</string>
+			<key>key</key>
+			<string>Color</string>
+			<key>label</key>
+			<string>Custom color (#RRGGBB)</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>preview</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Preview animation</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Set a different style/color or disable an app using its bundle ID.</string>
+			<key>label</key>
+			<string>Application rules</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>editApps</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Configure an app</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Wake is opt-in and only requested for eligible lock-screen alerts when Focus is confirmed inactive. Missing private APIs skip lock-screen effects. Reduce Motion uses a gentle fade.</string>
+			<key>label</key>
+			<string>Screen and battery</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.rshad.notifyglow</string>
+			<key>key</key>
+			<string>WakeScreen</string>
+			<key>label</key>
+			<string>Wake screen (experimental)</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.rshad.notifyglow</string>
+			<key>key</key>
+			<string>PauseLowPower</string>
+			<key>label</key>
+			<string>Pause in Low Power Mode</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>NotifyGlow</string>
+</dict>
+</plist>

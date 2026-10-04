@@ -1,0 +1,12 @@
+Package: com.rshad.notifyglow
+Name: NotifyGlow
+Version: 1.0.0
+Architecture: iphoneos-arm64
+Description: App-colored edge, notch and wave notification animations. Initial device-validation build.
+Maintainer: Rshad97
+Author: Rshad97
+Section: Tweaks
+Depends: mobilesubstrate, preferenceloader, firmware (>= 15.0)
+Homepage: https://github.com/Rshad97/NotifyGlow-Rootless
+Tag: compatible::ios15, compatible::ios16, role::enduser
+Needs: respring
