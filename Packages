@@ -1,18 +1,20 @@
 Package: com.rshad.notifyglow
 Name: NotifyGlow
-Version: 1.0.1
-Architecture: iphoneos-arm64
 Description: App-colored edge, notch and wave notification animations. Initial device-validation build.
 Maintainer: Rshad97
 Author: Rshad97
 Section: Tweaks
-Homepage: https://github.com/Rshad97/NotifyGlow-Rootless
 Depends: firmware (>= 15.0), ellekit, preferenceloader
+Homepage: https://github.com/Rshad97/NotifyGlow-Rootless
 Tag: role::enduser
 Needs: respring
-Filename: ./debs/com.rshad.notifyglow_1.0.1_iphoneos-arm64.deb
-Size: 24470
-MD5sum: fefe3d5ecdc13f988dbd76efa4e2506d
-SHA1: 78f8e2b92cf8ba2b577afca6046ae24fe81c5d61
-SHA256: b657d789e2e1ec08e9c0256467ad4ac4b2bda115ed5cf80cac376b652f19290a
-SHA512: d665492b30f8168c2337a54274d276b8693cb8c855cee838a504586289c45e731806ae06d9393c46d7e305e7fac8fef99464972efe3946cce4a7f42cce4e38d7
+Architecture: iphoneos-arm64
+Version: 1.0.2
+Installed-Size: 392
+Filename: ./debs/com.rshad.notifyglow_1.0.2_iphoneos-arm64.deb
+Size: 28508
+MD5sum: e4d5334729f843894cd469ac830ec8e3
+SHA1: 154259b067d463c9f0b22e8e20b3c721b182e328
+SHA256: c53e8b10ba6df001bb5fe20c6919e33b8e39a47bf668e1384e4860607a90bbd5
+SHA512: e53794503ca8c548937c7f8632ba1c143f2ab530466931f55adc152411fe7cfe7293d71e01f0106f0fd1bb9078faff27b7b07cdc6e1411a19bf72ce1e0e9faca
+
