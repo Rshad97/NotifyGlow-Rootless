@@ -1,10 +1,18 @@
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 #import <objc/message.h>
 #import <notify.h>
 #import <dlfcn.h>
 #import "NGConfig.h"
 #import "NGOverlay.h"
 #import "NGLogic.h"
+
+@interface NCNotificationDispatcher : NSObject
+- (void)postNotificationWithRequest:(id)request;
+@end
+@interface SBNotificationBannerDestination : NSObject
+- (void)postNotificationRequest:(id)request forCoalescedNotification:(id)coalesced;
+@end
 
 // All private selectors are capability-checked. Missing lock-screen capabilities
 // disable that path instead of guessing system state or bypassing Focus.
@@ -85,13 +93,17 @@ static void NGHandle(id request, BOOL banner) {
 
 %group Dispatcher
 %hook NCNotificationDispatcher
-- (void)postNotificationWithRequest:(id)request { %orig; NGHandle(request,NO); }
+- (void)postNotificationWithRequest:(id)request {
+    %orig;
+    NGHandle(request,NO);
+}
 %end
 %end
 %group Banner
 %hook SBNotificationBannerDestination
 - (void)postNotificationRequest:(id)request forCoalescedNotification:(id)coalesced {
-    %orig; NGHandle(request,YES);
+    %orig;
+    NGHandle(request,YES);
 }
 %end
 %end
@@ -102,9 +114,13 @@ static void NGHandle(id request, BOOL banner) {
         settings=NGSettings(); seen=[NSMutableDictionary new];
         Class dispatcher=NSClassFromString(@"NCNotificationDispatcher");
         Class banner=NSClassFromString(@"SBNotificationBannerDestination");
-        if ([dispatcher instancesRespondToSelector:@selector(postNotificationWithRequest:)]) { %init(Dispatcher); }
+        if ([dispatcher instancesRespondToSelector:@selector(postNotificationWithRequest:)]) {
+            %init(Dispatcher);
+        }
         else NSLog(@"[NotifyGlow] notification dispatcher unavailable");
-        if ([banner instancesRespondToSelector:@selector(postNotificationRequest:forCoalescedNotification:)]) { %init(Banner); }
+        if ([banner instancesRespondToSelector:@selector(postNotificationRequest:forCoalescedNotification:)]) {
+            %init(Banner);
+        }
         else NSLog(@"[NotifyGlow] banner hook unavailable");
         int prefsToken,previewToken,displayToken;
         notify_register_dispatch("com.rshad.notifyglow/settings",&prefsToken,dispatch_get_main_queue(),^(int token){

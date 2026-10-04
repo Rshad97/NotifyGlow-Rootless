@@ -8,5 +8,5 @@ Author: Rshad97
 Section: Tweaks
 Depends: mobilesubstrate, preferenceloader, firmware (>= 15.0)
 Homepage: https://github.com/Rshad97/NotifyGlow-Rootless
-Tag: compatible::ios15, compatible::ios16, role::enduser
+Tag: role::enduser
 Needs: respring
