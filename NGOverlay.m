@@ -8,11 +8,13 @@
 @implementation NGWindow
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event { return nil; }
 - (BOOL)_canBecomeKeyWindow { return NO; }
+- (BOOL)_shouldCreateContextAsSecure { return YES; }
 @end
 
 @interface NGViewController : UIViewController
 @end
 @implementation NGViewController
+- (BOOL)_canShowWhileLocked { return YES; }
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [[NGOverlay shared] dismiss];
@@ -57,7 +59,7 @@
     [self.window.layer removeAllAnimations];
     self.window.hidden=YES; self.window=nil;
 }
-- (void)showForBundle:(NSString *)bundle options:(NSDictionary *)o {
+- (BOOL)showForBundle:(NSString *)bundle options:(NSDictionary *)o {
     NSAssert(NSThread.isMainThread, @"UI must be on main thread");
     [self dismiss];
     UIColor *color=NGHexColor(o[@"Color"]) ?: [self color:bundle];
@@ -66,16 +68,37 @@
     NSString *style=[o[@"Style"] isKindOfClass:NSString.class] ? o[@"Style"] : @"edge";
     if ([style isEqual:@"random"]) style=@[@"edge",@"notch",@"wave"][arc4random_uniform(3)];
     if (![@[@"edge",@"notch",@"wave"] containsObject:style]) style=@"edge";
-    self.window=[[NGWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    // A frame-only window can remain unhosted in scene-based SpringBoard.
+    UIWindowScene *host=nil;
+    for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+        if (![scene isKindOfClass:UIWindowScene.class]) continue;
+        UIWindowScene *candidate=(UIWindowScene *)scene;
+        if (candidate.screen != UIScreen.mainScreen || scene.activationState == UISceneActivationStateUnattached) continue;
+        if (!host || scene.activationState == UISceneActivationStateForegroundActive) host=candidate;
+        if (scene.activationState == UISceneActivationStateForegroundActive) break;
+    }
+    if (!host) {
+        NSLog(@"[NotifyGlow] render failed: no connected main-display UIWindowScene");
+        return NO;
+    }
+    self.window=[[NGWindow alloc] initWithWindowScene:host];
+    self.window.frame=host.coordinateSpace.bounds;
     self.window.windowLevel=UIWindowLevelAlert+1000;
     self.window.backgroundColor=UIColor.clearColor;
     self.window.userInteractionEnabled=NO;
     self.window.accessibilityElementsHidden=YES;
     self.window.rootViewController=[NGViewController new];
     UIView *view=self.window.rootViewController.view;
+    view.frame=self.window.bounds;
+    view.autoresizingMask=UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     view.backgroundColor=UIColor.clearColor;
     self.window.hidden=NO; // Never makeKeyAndVisible: preserve underlying app input.
+    [self.window layoutIfNeeded];
     CGRect bounds=view.bounds;
+    if (CGRectIsEmpty(bounds)) {
+        NSLog(@"[NotifyGlow] render failed: empty overlay bounds");
+        [self dismiss]; return NO;
+    }
     BOOL reduced=UIAccessibilityIsReduceMotionEnabled();
     CAShapeLayer *shape=[CAShapeLayer layer];
     shape.frame=bounds; shape.fillColor=UIColor.clearColor.CGColor;
@@ -111,12 +134,14 @@
         UIImageView *icon=[[UIImageView alloc] initWithImage:[self icon:bundle]];
         icon.frame=CGRectMake((CGRectGetWidth(bounds)-40)/2,65,40,40);
         icon.layer.cornerRadius=9; icon.clipsToBounds=YES;
+        icon.layer.opacity=0;
         [view addSubview:icon]; [icon.layer addAnimation:fade forKey:@"fade"];
     }
     NSUInteger ticket=self.generation;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,(int64_t)(duration*NSEC_PER_SEC)),dispatch_get_main_queue(),^{
         if (ticket==self.generation) [self dismiss];
     });
-    NSLog(@"[NotifyGlow] render style=%@ bundle=%@",style,bundle);
+    NSLog(@"[NotifyGlow] render style=%@ bundle=%@ scene=%@ bounds=%@",style,bundle,NSStringFromClass(host.class),NSStringFromCGRect(bounds));
+    return YES;
 }
 @end

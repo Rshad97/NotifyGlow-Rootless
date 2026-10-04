@@ -10,7 +10,7 @@
 			<key>footerText</key>
 			<string>Initial device-validation build. Settings apply immediately; Preview tests visuals independently of notification hooks.</string>
 			<key>label</key>
-			<string>NotifyGlow 1.0.1</string>
+			<string>NotifyGlow 1.0.2</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -169,6 +169,11 @@
 			<string>PSButtonCell</string>
 			<key>label</key>
 			<string>Preview animation</string>
+		</dict>
+		<dict>
+			<key>action</key><string>diagnostics</string>
+			<key>cell</key><string>PSButtonCell</string>
+			<key>label</key><string>Runtime diagnostics</string>
 		</dict>
 		<dict>
 			<key>cell</key>

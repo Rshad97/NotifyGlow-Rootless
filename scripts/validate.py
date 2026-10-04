@@ -6,12 +6,21 @@ import sys
 root = Path(__file__).resolve().parents[1]
 control = dict(line.split(': ', 1) for line in (root/'control').read_text().splitlines() if ': ' in line)
 info = plistlib.loads((root/'preferences/Resources/Info.plist').read_bytes())
-assert control['Version'] == info['CFBundleVersion'] == info['CFBundleShortVersionString'] == '1.0.1'
+assert control['Version'] == info['CFBundleVersion'] == info['CFBundleShortVersionString'] == '1.0.2'
 assert control['Package'] == 'com.rshad.notifyglow'
 assert control['Architecture'] == 'iphoneos-arm64'
 for file in (root/'preferences/Resources').glob('*.plist'):
     plistlib.loads(file.read_bytes())
 plistlib.loads((root/'layout/Library/PreferenceLoader/Preferences/NotifyGlow.plist').read_bytes())
+assert plistlib.loads((root/'NotifyGlow.plist').read_bytes())['Filter']['Bundles'] == ['com.apple.springboard']
+overlay = (root/'NGOverlay.m').read_text()
+tweak = (root/'Tweak.xm').read_text()
+prefs = (root/'preferences/NGRootController.m').read_text()
+assert 'initWithWindowScene:host' in overlay and 'view.frame=self.window.bounds' in overlay
+assert '_canShowWhileLocked' in overlay and '_shouldCreateContextAsSecure' in overlay
+assert 'NGInstallHooks(attempt+1)' in tweak and 'postNotificationRequest:(id)request {' in tweak
+assert 'NGReply(created ? NGWindowCreated : NGNoScene)' in tweak
+assert 'No response from SpringBoard' in prefs and 'notify_cancel(replyToken)' in prefs
 if '--package' in sys.argv:
     packages = list((root/'packages').glob('*.deb'))
     assert len(packages) == 1, packages

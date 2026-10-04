@@ -35,7 +35,7 @@ jobs:
           shasum -a 256 packages/*.deb > packages/SHA256SUMS
       - uses: actions/upload-artifact@v4
         with:
-          name: NotifyGlow-Rootless-1.0.1
+          name: NotifyGlow-Rootless-1.0.2
           path: |
             packages/*.deb
             packages/SHA256SUMS
