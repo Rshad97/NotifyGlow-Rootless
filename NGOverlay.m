@@ -10,6 +10,15 @@
 - (BOOL)_canBecomeKeyWindow { return NO; }
 @end
 
+@interface NGViewController : UIViewController
+@end
+@implementation NGViewController
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [[NGOverlay shared] dismiss];
+}
+@end
+
 @interface NGOverlay ()
 @property(nonatomic,strong) NGWindow *window;
 @property(nonatomic,strong) NSCache *colors;
@@ -18,11 +27,6 @@
 
 @implementation NGOverlay
 + (instancetype)shared { static NGOverlay *o; static dispatch_once_t once; dispatch_once(&once, ^{ o = [self new]; o.colors = [NSCache new]; o.colors.countLimit = 100; }); return o; }
-- (instancetype)init {
-    if ((self = [super init])) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismiss) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-    } return self;
-}
 - (UIImage *)icon:(NSString *)bundle {
     SEL sel = NSSelectorFromString(@"_applicationIconImageForBundleIdentifier:format:scale:");
     if (![UIImage respondsToSelector:sel]) return nil;
@@ -67,7 +71,7 @@
     self.window.backgroundColor=UIColor.clearColor;
     self.window.userInteractionEnabled=NO;
     self.window.accessibilityElementsHidden=YES;
-    self.window.rootViewController=[UIViewController new];
+    self.window.rootViewController=[NGViewController new];
     UIView *view=self.window.rootViewController.view;
     view.backgroundColor=UIColor.clearColor;
     self.window.hidden=NO; // Never makeKeyAndVisible: preserve underlying app input.
