@@ -7,10 +7,10 @@ Architectures: iphoneos-arm64
 Components: main
 Description: Rashad NotifyGlow packages
 MD5Sum:
- 72b4a639b1733507a7f0cbec7eb32d13              788 Packages
- 65c1215b7c409bbafaad497ed983cdc3              544 Packages.gz
- cf886f737c0fabe651aa25e70ce25aaa              585 Packages.bz2
+ 9e3d6d74bc0e94cce3e27c3753a23e02              788 Packages
+ 3dfc9c6789a5a1bce88802931f3c2a3a              543 Packages.gz
+ b8de5085314c3c70a69fe46daa0629a0              590 Packages.bz2
 SHA256:
- ad1b7b8fc75a2ae7c52295ced36c718915fa60bd24ab9819c1aeeeaf26fcb6fc              788 Packages
- 6d16bf7407252784014a92761939a50f5c97e5b75426c649bb2b01ca8ab5ef4e              544 Packages.gz
- e5065f075362f54e4a9b33b09af86680cb0bb22923d5c642392853a5efdf1cbe              585 Packages.bz2
+ a9c3c4ce433fef0c79b55a2e09ebd328fde7effdbcac3a2e7a7c8e4fa582fa3b              788 Packages
+ 7b0fed73dc2ba54e86d5640ae6f574bc9e21c793355bda063d89a3d1c9b86feb              543 Packages.gz
+ 707072da053850c249d48398f1045bc7a13bf11a7e4482fbe47a89c9f77ae195              590 Packages.bz2

@@ -9,12 +9,12 @@ Homepage: https://github.com/Rshad97/NotifyGlow-Rootless
 Tag: role::enduser
 Needs: respring
 Architecture: iphoneos-arm64
-Version: 1.0.2
-Installed-Size: 392
-Filename: ./debs/com.rshad.notifyglow_1.0.2_iphoneos-arm64.deb
-Size: 28508
-MD5sum: e4d5334729f843894cd469ac830ec8e3
-SHA1: 154259b067d463c9f0b22e8e20b3c721b182e328
-SHA256: c53e8b10ba6df001bb5fe20c6919e33b8e39a47bf668e1384e4860607a90bbd5
-SHA512: e53794503ca8c548937c7f8632ba1c143f2ab530466931f55adc152411fe7cfe7293d71e01f0106f0fd1bb9078faff27b7b07cdc6e1411a19bf72ce1e0e9faca
+Version: 1.1.0
+Installed-Size: 428
+Filename: ./debs/com.rshad.notifyglow_1.1.0_iphoneos-arm64.deb
+Size: 33336
+MD5sum: 4f52535d442f7eed917560401103239f
+SHA1: 975dd4999d9c5c259a9c3297f8bdd6ed264f36cb
+SHA256: 23fda1323258d43e7d3751a7404ba27859c9fd23352b1b686e054f4c86cbbbbb
+SHA512: 8e9ae38d12f39872b0394a1e4821df637ffaed58b0e245c935b2b477248cd7c6ecd27358da7b90d0cf863b248fead2f121519ce6ed3d59c4a23b87b918498260
 
