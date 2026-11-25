@@ -60,7 +60,27 @@
     self.window.hidden=YES; self.window=nil;
 }
 - (BOOL)showForBundle:(NSString *)bundle options:(NSDictionary *)o {
+    UIWindowScene *host = nil;
+    for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
+        if (![scene isKindOfClass:UIWindowScene.class]) continue;
+        UIWindowScene *candidate = (UIWindowScene *)scene;
+        if (candidate.screen != UIScreen.mainScreen) continue;
+        if (candidate.activationState == UISceneActivationStateForegroundActive) {
+            host = candidate;
+            break;
+        }
+        if (candidate.activationState == UISceneActivationStateForegroundInactive) host = candidate;
+    }
+    return [self showForBundle:bundle options:o inScene:host];
+}
+
+- (BOOL)showForBundle:(NSString *)bundle options:(NSDictionary *)o inScene:(UIWindowScene *)host {
     NSAssert(NSThread.isMainThread, @"UI must be on main thread");
+    if (!host || (host.activationState != UISceneActivationStateForegroundActive &&
+                  host.activationState != UISceneActivationStateForegroundInactive)) {
+        NSLog(@"[NotifyGlow] render failed: no foreground display scene");
+        return NO;
+    }
     [self dismiss];
     UIColor *color=NGHexColor(o[@"Color"]) ?: [self color:bundle];
     double duration=NGNumber(o,@"Duration",2,.5,6), width=NGNumber(o,@"Width",4,1,12);
@@ -68,19 +88,6 @@
     NSString *style=[o[@"Style"] isKindOfClass:NSString.class] ? o[@"Style"] : @"edge";
     if ([style isEqual:@"random"]) style=@[@"edge",@"notch",@"wave"][arc4random_uniform(3)];
     if (![@[@"edge",@"notch",@"wave"] containsObject:style]) style=@"edge";
-    // A frame-only window can remain unhosted in scene-based SpringBoard.
-    UIWindowScene *host=nil;
-    for (UIScene *scene in UIApplication.sharedApplication.connectedScenes) {
-        if (![scene isKindOfClass:UIWindowScene.class]) continue;
-        UIWindowScene *candidate=(UIWindowScene *)scene;
-        if (candidate.screen != UIScreen.mainScreen || scene.activationState == UISceneActivationStateUnattached) continue;
-        if (!host || scene.activationState == UISceneActivationStateForegroundActive) host=candidate;
-        if (scene.activationState == UISceneActivationStateForegroundActive) break;
-    }
-    if (!host) {
-        NSLog(@"[NotifyGlow] render failed: no connected main-display UIWindowScene");
-        return NO;
-    }
     self.window=[[NGWindow alloc] initWithWindowScene:host];
     self.window.frame=host.coordinateSpace.bounds;
     self.window.windowLevel=UIWindowLevelAlert+1000;

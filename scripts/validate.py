@@ -6,7 +6,7 @@ import sys
 root = Path(__file__).resolve().parents[1]
 control = dict(line.split(': ', 1) for line in (root/'control').read_text().splitlines() if ': ' in line)
 info = plistlib.loads((root/'preferences/Resources/Info.plist').read_bytes())
-assert control['Version'] == info['CFBundleVersion'] == info['CFBundleShortVersionString'] == '1.0.2'
+assert control['Version'] == info['CFBundleVersion'] == info['CFBundleShortVersionString'] == '1.1.0'
 assert control['Package'] == 'com.rshad.notifyglow'
 assert control['Architecture'] == 'iphoneos-arm64'
 for file in (root/'preferences/Resources').glob('*.plist'):
@@ -21,6 +21,12 @@ assert '_canShowWhileLocked' in overlay and '_shouldCreateContextAsSecure' in ov
 assert 'NGInstallHooks(attempt+1)' in tweak and 'postNotificationRequest:(id)request {' in tweak
 assert 'NGReply(created ? NGWindowCreated : NGNoScene)' in tweak
 assert 'No response from SpringBoard' in prefs and 'notify_cancel(replyToken)' in prefs
+items = plistlib.loads((root/'preferences/Resources/Root.plist').read_bytes())['items']
+for action in ('preview', 'previewInSettings'):
+    assert any(item.get('action') == action for item in items)
+    assert f'(void){action} ' in prefs
+assert 'self.view.window.windowScene' in prefs
+assert '../NGOverlay.m' in (root/'preferences/Makefile').read_text()
 if '--package' in sys.argv:
     packages = list((root/'packages').glob('*.deb'))
     assert len(packages) == 1, packages

@@ -17,7 +17,7 @@ control_tar = subprocess.check_output(['dpkg-deb', '--ctrl-tarfile', str(deb)])
 with tarfile.open(fileobj=io.BytesIO(control_tar), mode='r:') as archive:
     fields = archive.extractfile('./control').read().decode().strip()
 assert 'Package: com.rshad.notifyglow\n' in fields
-assert 'Version: 1.0.2\n' in fields
+assert 'Version: 1.1.0\n' in fields
 assert 'Architecture: iphoneos-arm64\n' in fields
 assert 'Needs: respring' in fields
 packages = fields + '\nFilename: ./debs/' + deb.name + '\nSize: ' + str(len(raw)) + '\n'
@@ -36,4 +36,4 @@ data['Release'] = release.encode()
 for name, value in data.items():
     (out/name).write_bytes(value)
 assert gzip.decompress(data['Packages.gz']) == bz2.decompress(data['Packages.bz2']) == data['Packages']
-print(json.dumps({'version': '1.0.2', 'size': len(raw), 'sha256': hashlib.sha256(raw).hexdigest(), 'metadata': str(out)}))
+print(json.dumps({'version': '1.1.0', 'size': len(raw), 'sha256': hashlib.sha256(raw).hexdigest(), 'metadata': str(out)}))

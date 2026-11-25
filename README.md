@@ -1,6 +1,10 @@
 # NotifyGlow-Rootless
 
-App-colored notification animations for a rootless jailbreak. Package: `com.rshad.notifyglow`, version `1.0.2`.
+App-colored notification animations for a rootless jailbreak. Package: `com.rshad.notifyglow`, version `1.1.0`.
+
+## Previewing your changes
+
+Open **Settings → NotifyGlow → Preview in Settings** to see the selected style, color, and duration in the Settings window. Then tap **Preview via SpringBoard** to test the overlay used by notifications. If only the first preview appears, **Runtime diagnostics** shows whether SpringBoard responded and which notification hooks loaded.
 
 ## 1.0.2 runtime fixes
 
@@ -34,7 +38,7 @@ The notch effect is a stylized top-center capsule, not an exact model-specific n
 
 ## Build / install
 
-The GitHub Actions workflow builds a DEB and SHA256SUMS (`NotifyGlow-Rootless-1.0.2`). Update from Sileo and restart SpringBoard when prompted. Then open Settings > NotifyGlow > Preview animation. If it is invisible, use Runtime diagnostics and capture the response. No response means injection/IPC requires investigation; Sileo alone does not inject tweaks.
+The GitHub Actions workflow builds a DEB and SHA256SUMS (`NotifyGlow-Rootless-1.1.0`). Update from Sileo and restart SpringBoard when prompted. Then open Settings > NotifyGlow > Preview via SpringBoard. If it is invisible, use Runtime diagnostics and capture the response. No response means injection/IPC requires investigation; Sileo alone does not inject tweaks.
 
 For local builds, install Theos and its patched iPhoneOS 16.5 SDK, then run `make clean package FINALPACKAGE=1`. Tests: `cc -std=c11 tests/logic.c -lm -o /tmp/ng-logic && /tmp/ng-logic`; metadata: `python3 scripts/validate.py`.
 
@@ -48,7 +52,7 @@ Sileo source: https://rshad97.github.io/FreeFall-Rootless/
 4. Send a burst of notifications, rotate the device, lock during an effect, and use the keyboard. Check no overlay remains and touches keep working.
 5. Test alongside existing notification tweaks. Confirm memory returns to baseline and no idle animation/wake activity.
 
-Expected logs: `[NotifyGlow] loaded 1.0.2`, `hooks mask=...`, `render style=... scene=... bounds=...`, or explicit renderer failure/exception. Mask bits: 1 dispatcher, 2 historical banner, 4 single-argument banner. Do not collect notification contents for debugging.
+Expected logs: `[NotifyGlow] loaded 1.1.0`, `hooks mask=...`, `render style=... scene=... bounds=...`, or explicit renderer failure/exception. Mask bits: 1 dispatcher, 2 historical banner, 4 single-argument banner. Do not collect notification contents for debugging.
 
 ## Implementation references
 
