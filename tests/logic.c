@@ -17,7 +17,7 @@ int main(void) {
         uint64_t state=NGDiagnosticState(NGWindowCreated,hooks);
         assert((state&255)==NGWindowCreated);
         assert(((state>>8)&255)==hooks);
-        assert((state>>16)==102);
+        assert((state>>16)==110);
     }
     return 0;
 }

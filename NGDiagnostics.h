@@ -6,5 +6,5 @@
 enum { NGReady=1, NGWindowCreated=2, NGNoScene=3, NGException=4 };
 // Low byte is result; next byte describes installed hooks, not notification data.
 static inline uint64_t NGDiagnosticState(unsigned result, unsigned hooks) {
-    return ((uint64_t)102 << 16) | ((uint64_t)hooks << 8) | result;
+    return ((uint64_t)110 << 16) | ((uint64_t)hooks << 8) | result;
 }

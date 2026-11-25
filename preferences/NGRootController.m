@@ -2,6 +2,7 @@
 #import <Preferences/PSSpecifier.h>
 #import <notify.h>
 #import "../NGConfig.h"
+#import "../NGOverlay.h"
 #import "../NGDiagnostics.h"
 @interface NGRootController : PSListController
 @property(nonatomic) BOOL checkingRuntime;
@@ -36,7 +37,7 @@
         answered=YES; notify_cancel(token); self.checkingRuntime=NO;
         unsigned result=state&255, hooks=(state>>8)&255, version=(unsigned)(state>>16);
         if (preview && result==NGWindowCreated) return;
-        NSString *detail=result==NGNoScene ? @"SpringBoard received Preview but could not create the display window." :
+        NSString *detail=result==NGNoScene ? @"SpringBoard received Preview but could not display the animation in a foreground window." :
             result==NGException ? @"SpringBoard received Preview but the renderer raised an exception. Check the [NotifyGlow] log." :
             @"SpringBoard injection is responding. This confirms loading, not that the animation is visibly displayed.";
         [self runtimeMessage:[NSString stringWithFormat:@"Runtime: %u.%u.%u\nDispatcher: %@\nBanner: %@\n\n%@",version/100,(version/10)%10,version%10,(hooks&1)?@"hooked":@"unavailable",(hooks&6)?@"hooked":@"unavailable",detail]];
@@ -50,6 +51,16 @@
         answered=YES; notify_cancel(replyToken); self.checkingRuntime=NO;
         [self runtimeMessage:@"No response from SpringBoard. Restart SpringBoard after updating. If this persists, check that tweak injection is enabled for SpringBoard in your jailbreak; Sileo alone does not load tweaks."];
     });
+}
+- (void)previewInSettings {
+    UIWindowScene *scene = self.view.window.windowScene;
+    if (![[NGOverlay shared] showForBundle:@"com.apple.MobileSMS" options:NGSettings() inScene:scene]) {
+        [self runtimeMessage:@"Settings could not show the animation in its current window."];
+    }
+}
+- (void)viewWillDisappear:(BOOL)animated {
+    [[NGOverlay shared] dismiss];
+    [super viewWillDisappear:animated];
 }
 - (void)preview { [self checkRuntime:YES]; }
 - (void)diagnostics { [self checkRuntime:NO]; }

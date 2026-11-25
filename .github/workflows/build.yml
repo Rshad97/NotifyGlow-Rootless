@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
       - name: Test render policy
@@ -32,11 +32,51 @@ jobs:
       - name: Verify package
         run: |
           python3 scripts/validate.py --package
+          python3 scripts/repo-metadata.py packages/*.deb "$RUNNER_TEMP/notifyglow-index"
           shasum -a 256 packages/*.deb > packages/SHA256SUMS
       - uses: actions/upload-artifact@v4
         with:
-          name: NotifyGlow-Rootless-1.0.2
+          name: NotifyGlow-Rootless-1.1.0
           path: |
             packages/*.deb
             packages/SHA256SUMS
           if-no-files-found: error
+
+  publish:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: distribution
+      - uses: actions/download-artifact@v4
+        with:
+          name: NotifyGlow-Rootless-1.1.0
+          path: packages
+      - name: Publish the verified DEB and package index
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum -c packages/SHA256SUMS
+          debs=(packages/*.deb)
+          test "${#debs[@]}" -eq 1
+          python3 scripts/repo-metadata.py "${debs[0]}" distribution
+          mkdir -p distribution/debs
+          cp "${debs[0]}" distribution/debs/
+          cd distribution
+          sha256sum "debs/$(basename "${debs[0]}")" > SHA256SUMS
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f debs/*.deb
+          git add Packages Packages.gz Packages.bz2 Release SHA256SUMS
+          if ! git diff --cached --quiet; then
+            git commit -m 'Publish verified NotifyGlow package'
+            git push origin HEAD:gh-pages
+          fi

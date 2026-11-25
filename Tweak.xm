@@ -185,6 +185,6 @@ static void NGInstallHooks(unsigned attempt) {
         notify_register_dispatch("com.apple.iokit.hid.displayStatus",&displayToken,dispatch_get_main_queue(),^(int token){
             uint64_t on=0; if (notify_get_state(token,&on)==NOTIFY_STATUS_OK && !on) [[NGOverlay shared] dismiss];
         });
-        NSLog(@"[NotifyGlow] loaded 1.0.2; runtime validation required");
+        NSLog(@"[NotifyGlow] loaded 1.1.0; runtime validation required");
     }
 }
